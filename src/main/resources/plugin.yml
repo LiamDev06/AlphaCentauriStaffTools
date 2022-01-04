@@ -1,0 +1,6 @@
+name: AlphaCentauriStaffTools
+version: ${project.version}
+main: dev.alphacentauri.stafftools.StaffToolsPlugin
+api-version: 1.18
+authors: [ LiamHBest, AlphaCentauri ]
+description: A set of staff tools made for AlphaCentauri

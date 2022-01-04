@@ -1,0 +1,43 @@
+- Standard moderation commands;
+/badname <name>
+/removebadname <name>
+
+/ban <player> <reason>
+/tempban <player> <time> <reason>
+/unban <reason>
+
+/mute <player> <time> <reason>
+/unmute <player> <reason>
+
+/warn <player> <kick_on_warn(true/false)> <reason>
+/kick <player> <reason>
+
+/clearchat <reason> - clears the chat (staff bypasses the clear)
+/mutechat - will mute the chat in the current world
+/unmutechat - will unmute the chat in the current world
+
+/report <player> <reason> - report a player
+/viewreports - View all the reports made on the network
+/fetchreport <report_index>
+/viewreports <player> - View all the reports against, and submitted by a player
+/viewhistory - View all punishment history on the network
+/viewhistory <player> - View all the punishment history of a player
+
+/addevidencevideo <case_number/id> <video_id_from_discord>
+/removeevidencevideo <case_number/id> <video_id_from_discord>
+
+/addevidencetext <case_number/id> <log_id>
+/removeevidencetext <case_number/id> <log_id>
+
+!fetchlogs <minecraft_player> - This will fetch their latest logs, all messages will have an ID so the user can add cool stuff
+
+/staffrollback command
+
+All moderation commands will get an ID added to them that staff can use to add evidence
+Discord logs channel that I can use to add webhooks with punishment logs
+Staff join and leave messages
+
+/linkreport <reportIndex> <punishmentId> - links a punishment to a report
+/sc <message>
+/staffchat
+/staffnotify
