@@ -1,4 +1,4 @@
-package dev.alphacentauri.stafftools.discordbot;
+package dev.alphacentauri.stafftools.discord;
 
 public class DiscordBot {
 

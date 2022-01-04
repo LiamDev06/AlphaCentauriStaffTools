@@ -2,7 +2,6 @@ package dev.alphacentauri.stafftools.data;
 
 import dev.alphacentauri.stafftools.StaffToolsPlugin;
 import dev.alphacentauri.stafftools.data.entities.Report;
-import dev.alphacentauri.stafftools.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,18 +19,54 @@ public class ReportManager {
         File file = new File(StaffToolsPlugin.getInstance().getDataFolder(), "reports.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
+        if (config.getConfigurationSection("reports") == null) {
+            return reports;
+        }
+
         // key = report-[index]
         for (String key : config.getConfigurationSection("reports").getKeys(false)) {
             String path = "reports." + key + ".";
 
             reports.add(new Report(
+                    Integer.parseInt(key.replace("report-", "")),
                     UUID.fromString(config.getString(path + "submittedUuid")),
                     UUID.fromString(config.getString(path + "againstUuid")),
                     config.getString(path + "reason"),
                     config.getString(path + "status"),
                     config.getString(path + "linkedPunishmentId"),
+                    config.getString(path + "staffHandling"),
                     config.getLong(path + "timestamp")
             ));
+        }
+
+        return reports;
+    }
+
+    public List<Report> getOpenNetworkReports() {
+        List<Report> reports = new ArrayList<>();
+        File file = new File(StaffToolsPlugin.getInstance().getDataFolder(), "reports.yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        if (config.getConfigurationSection("reports") == null) {
+            return reports;
+        }
+
+        // key = report-[index]
+        for (String key : config.getConfigurationSection("reports").getKeys(false)) {
+            String path = "reports." + key + ".";
+
+            if (config.getString(path + "status").equalsIgnoreCase("open")) {
+                reports.add(new Report(
+                        Integer.parseInt(key.replace("report-", "")),
+                        UUID.fromString(config.getString(path + "submittedUuid")),
+                        UUID.fromString(config.getString(path + "againstUuid")),
+                        config.getString(path + "reason"),
+                        config.getString(path + "status"),
+                        config.getString(path + "linkedPunishmentId"),
+                        config.getString(path + "staffHandling"),
+                        config.getLong(path + "timestamp")
+                ));
+            }
         }
 
         return reports;
@@ -42,17 +77,23 @@ public class ReportManager {
         File file = new File(StaffToolsPlugin.getInstance().getDataFolder(), "reports.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
+        if (config.getConfigurationSection("reports") == null) {
+            return reports;
+        }
+
         // key = report-[index]
         for (String key : config.getConfigurationSection("reports").getKeys(false)) {
             String path = "reports." + key + ".";
 
             if (config.getString(path + "againstUuid").equalsIgnoreCase(uuid.toString())) {
                 reports.add(new Report(
+                        Integer.parseInt(key.replace("report-", "")),
                         UUID.fromString(config.getString(path + "submittedUuid")),
                         UUID.fromString(config.getString(path + "againstUuid")),
                         config.getString(path + "reason"),
                         config.getString(path + "status"),
                         config.getString(path + "linkedPunishmentId"),
+                        config.getString(path + "staffHandling"),
                         config.getLong(path + "timestamp")
                 ));
             }
@@ -66,17 +107,23 @@ public class ReportManager {
         File file = new File(StaffToolsPlugin.getInstance().getDataFolder(), "reports.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
+        if (config.getConfigurationSection("reports") == null) {
+            return reports;
+        }
+
         // key = report-[index]
         for (String key : config.getConfigurationSection("reports").getKeys(false)) {
             String path = "reports." + key + ".";
 
             if (config.getString(path + "submittedUuid").equalsIgnoreCase(uuid.toString())) {
                 reports.add(new Report(
+                        Integer.parseInt(key.replace("report-", "")),
                         UUID.fromString(config.getString(path + "submittedUuid")),
                         UUID.fromString(config.getString(path + "againstUuid")),
                         config.getString(path + "reason"),
                         config.getString(path + "status"),
                         config.getString(path + "linkedPunishmentId"),
+                        config.getString(path + "staffHandling"),
                         config.getLong(path + "timestamp")
                 ));
             }
@@ -91,32 +138,29 @@ public class ReportManager {
 
         final String path = "reports.report-" + reportIndex + ".";
         return new Report(
-                UUID.fromString(config.getString("submittedUuid")),
-                UUID.fromString(config.getString("againstUuid")),
-                config.getString("reason"),
-                config.getString("status"),
-                config.getString("linkedPunishmentId"),
-                config.getLong("timestamp")
+                reportIndex,
+                UUID.fromString(config.getString(path + "submittedUuid")),
+                UUID.fromString(config.getString(path + "againstUuid")),
+                config.getString(path + "reason"),
+                config.getString(path + "status"),
+                config.getString(path + "linkedPunishmentId"),
+                config.getString(path + "staffHandling"),
+                config.getLong(path + "timestamp")
         );
     }
 
     public void saveReportToStorage(Report report) {
         File file = new File(StaffToolsPlugin.getInstance().getDataFolder(), "reports.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-        StaffToolsPlugin plugin = StaffToolsPlugin.getInstance();
 
-        int reportIndex = plugin.getConfig().getInt("reportIndex");
-        plugin.getConfig().set("reportIndex", reportIndex + 1);
-        plugin.saveConfig();
-
-        final String path = "reports.report-" + reportIndex + ".";
-        FileConfiguration reportsConfig = Utils.loadConfig("reports.yml");
-        reportsConfig.set(path + "submittedUuid", report.getSubmitted().toString());
-        reportsConfig.set(path + "againstUuid", report.getAgainst().toString());
-        reportsConfig.set(path + "reason", report.getReason());
-        reportsConfig.set(path + "status", report.getStatus()); // open
-        reportsConfig.set(path + "linkedPunishmentId", report.getLinkedPunishmentId()); // punishments can be linked with this report
-        reportsConfig.set(path + "timestamp", report.getTimeStamp());
+        final String path = "reports.report-" + report.getIndex() + ".";
+        config.set(path + "submittedUuid", report.getSubmitted().toString());
+        config.set(path + "againstUuid", report.getAgainst().toString());
+        config.set(path + "reason", report.getReason());
+        config.set(path + "status", report.getStatus()); // open
+        config.set(path + "linkedPunishmentId", report.getLinkedPunishmentId()); // punishments can be linked with this report
+        config.set(path + "staffHandling", report.getStaffHandling());
+        config.set(path + "timestamp", report.getTimeStamp());
 
         try {
             config.save(file);

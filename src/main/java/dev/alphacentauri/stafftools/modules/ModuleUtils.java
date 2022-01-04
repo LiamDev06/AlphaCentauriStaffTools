@@ -1,11 +1,20 @@
 package dev.alphacentauri.stafftools.modules;
 
+import dev.alphacentauri.stafftools.modules.viewReports.ManageReportMenu;
+import dev.alphacentauri.stafftools.modules.viewReports.ViewReportsGUI;
 import dev.alphacentauri.stafftools.utils.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+
 public class ModuleUtils {
+
+    public static void initGuiUtils() {
+        ViewReportsGUI.userToggleOption = new HashMap<>();
+        ManageReportMenu.currentReportManage = new HashMap<>();
+    }
 
     public static void fillGlassAround(Inventory inventory) {
         ItemStack glass = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)

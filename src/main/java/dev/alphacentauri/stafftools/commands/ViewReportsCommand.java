@@ -1,6 +1,6 @@
 package dev.alphacentauri.stafftools.commands;
 
-import dev.alphacentauri.stafftools.modules.viewReports.MenuGUI;
+import dev.alphacentauri.stafftools.modules.viewReports.ViewReportsGUI;
 import dev.alphacentauri.stafftools.utils.CC;
 import dev.alphacentauri.stafftools.utils.PermissionUtil;
 import dev.alphacentauri.stafftools.utils.PlayerCommand;
@@ -25,7 +25,10 @@ public class ViewReportsCommand extends PlayerCommand {
         if (args.length == 0) {
             player.sendMessage(CC.translate("&7Fetching all network reports..."));
             player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 10, 2);
-            player.openInventory(MenuGUI.getNetworkReports());
+
+            ViewReportsGUI.userToggleOption.remove(player.getUniqueId());
+            ViewReportsGUI.userToggleOption.put(player.getUniqueId(), "open");
+            player.openInventory(ViewReportsGUI.getNetworkReports(player.getUniqueId()));
             return;
         }
 
@@ -37,7 +40,10 @@ public class ViewReportsCommand extends PlayerCommand {
 
         player.sendMessage(CC.translate("&7Fetching all network reports made by " + target.getName() + "..."));
         player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 10, 2);
-        player.openInventory(MenuGUI.getNetworkReports(target));
+
+        ViewReportsGUI.userToggleOption.remove(player.getUniqueId());
+        ViewReportsGUI.userToggleOption.put(player.getUniqueId(), "open");
+        player.openInventory(ViewReportsGUI.getNetworkReports(player.getUniqueId(), target));
     }
 }
 

@@ -8,7 +8,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 public class Utils {
@@ -70,6 +72,12 @@ public class Utils {
         }
 
         return PermissionUtil.getUserPrefix(uuid) + " " + name;
+    }
+
+    public static String friendlyDateFromTimestamp(long input) {
+        Timestamp timestamp = new Timestamp(input);
+        Date date = new Date(timestamp.getTime());
+        return date.toString();
     }
 }
 

@@ -47,6 +47,7 @@ public class StaffUserManager {
         config.set("uuid", uuid.toString());
         config.set("staffNotify", true);
         config.set("staffChat", false);
+        config.set("spyMode", false);
 
         staffUsers.put(uuid, staffUser);
 
@@ -64,6 +65,7 @@ public class StaffUserManager {
         StaffUser staffUser = new StaffUser(uuid);
         staffUser.setStaffNotify(config.getBoolean("staffNotify"));
         staffUser.setStaffChat(config.getBoolean("staffChat"));
+        staffUser.setSpyMode(config.getBoolean("spyMode"));
     }
 
     public void offLoadPlayerFromCache(UUID uuid) {
@@ -76,6 +78,7 @@ public class StaffUserManager {
         config.set("uuid", staffUser.getUuid().toString());
         config.set("staffNotify", staffUser.isStaffNotify());
         config.set("staffChat", staffUser.isStaffChat());
+        config.set("spyMode", staffUser.isSpyMode());
 
         try {
             config.save(file);

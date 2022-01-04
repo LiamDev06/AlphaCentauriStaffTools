@@ -2,6 +2,8 @@ package dev.alphacentauri.stafftools.listeners;
 
 import dev.alphacentauri.stafftools.StaffToolsPlugin;
 import dev.alphacentauri.stafftools.data.StaffUserManager;
+import dev.alphacentauri.stafftools.modules.viewReports.ManageReportMenu;
+import dev.alphacentauri.stafftools.modules.viewReports.ViewReportsGUI;
 import dev.alphacentauri.stafftools.utils.CC;
 import dev.alphacentauri.stafftools.utils.PermissionUtil;
 import dev.alphacentauri.stafftools.utils.Utils;
@@ -58,6 +60,8 @@ public class JoinLeaveListener implements Listener {
             }
         }
 
+        ViewReportsGUI.userToggleOption.remove(player.getUniqueId());
+        ManageReportMenu.currentReportManage.remove(player.getUniqueId());
         Utils.staff.remove(player);
         Utils.staffIncludeTrial.remove(player);
     }

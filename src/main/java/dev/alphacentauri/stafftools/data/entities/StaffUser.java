@@ -10,11 +10,13 @@ public class StaffUser {
     private UUID uuid;
     private boolean isStaffNotify;
     private boolean isStaffChat;
+    private boolean isSpyMode;
 
     public StaffUser(UUID uuid) {
         this.uuid = uuid;
         this.isStaffNotify = true;
         this.isStaffChat = false;
+        this.isSpyMode = false;
         save();
     }
 
@@ -30,6 +32,10 @@ public class StaffUser {
         return isStaffChat;
     }
 
+    public boolean isSpyMode() {
+        return isSpyMode;
+    }
+
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
         save();
@@ -42,6 +48,11 @@ public class StaffUser {
 
     public void setStaffChat(boolean staffChat) {
         this.isStaffChat = staffChat;
+        save();
+    }
+
+    public void setSpyMode(boolean spyMode) {
+        this.isSpyMode = spyMode;
         save();
     }
 

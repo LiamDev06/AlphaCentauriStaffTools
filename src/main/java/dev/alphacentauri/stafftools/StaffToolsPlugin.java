@@ -6,10 +6,13 @@ import dev.alphacentauri.stafftools.commands.StaffNotifyCommand;
 import dev.alphacentauri.stafftools.commands.ViewReportsCommand;
 import dev.alphacentauri.stafftools.data.ReportManager;
 import dev.alphacentauri.stafftools.data.StaffUserManager;
+import dev.alphacentauri.stafftools.discord.DiscordWebhook;
 import dev.alphacentauri.stafftools.listeners.ChatListener;
 import dev.alphacentauri.stafftools.listeners.JoinLeaveListener;
 import dev.alphacentauri.stafftools.listeners.LuckPermsGroupChangeListener;
-import dev.alphacentauri.stafftools.modules.viewReports.Listener;
+import dev.alphacentauri.stafftools.modules.ModuleUtils;
+import dev.alphacentauri.stafftools.modules.viewReports.ManageReportMenu;
+import dev.alphacentauri.stafftools.modules.viewReports.ViewReportsListener;
 import dev.alphacentauri.stafftools.utils.CC;
 import dev.alphacentauri.stafftools.utils.Utils;
 import net.luckperms.api.LuckPerms;
@@ -32,6 +35,7 @@ public final class StaffToolsPlugin extends JavaPlugin {
     private StaffUserManager staffUserManager;
     private LuckPerms luckPermsApi;
     private ReportManager reportManager;
+    private DiscordWebhook discordWebhook;
 
     @Override
     public void onEnable() {
@@ -44,6 +48,7 @@ public final class StaffToolsPlugin extends JavaPlugin {
 
         saveDefaultConfig();
         Utils.setup();
+        ModuleUtils.initGuiUtils();
 
         File reportsFile = new File(getDataFolder(), "reports.yml");
         if (!reportsFile.exists()) {
@@ -61,12 +66,14 @@ public final class StaffToolsPlugin extends JavaPlugin {
         staffUserManager = new StaffUserManager();
         reportManager = new ReportManager();
         luckPermsApi = LuckPermsProvider.get();
+        discordWebhook = new DiscordWebhook();
 
         PluginManager manager = getServer().getPluginManager();
         new LuckPermsGroupChangeListener(this, luckPermsApi);
         manager.registerEvents(new JoinLeaveListener(), this);
         manager.registerEvents(new ChatListener(), this);
-        manager.registerEvents(new Listener(), this);
+        manager.registerEvents(new ViewReportsListener(), this);
+        manager.registerEvents(new ManageReportMenu(), this);
 
         new StaffNotifyCommand();
         new StaffChatCommand();
@@ -99,5 +106,9 @@ public final class StaffToolsPlugin extends JavaPlugin {
 
     public LuckPerms getLuckPermsApi() {
         return luckPermsApi;
+    }
+
+    public DiscordWebhook getDiscordWebhook() {
+        return discordWebhook;
     }
 }
