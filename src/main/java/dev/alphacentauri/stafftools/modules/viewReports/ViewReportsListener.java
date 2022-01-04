@@ -50,6 +50,20 @@ public class ViewReportsListener implements org.bukkit.event.Listener {
                 return;
             }
 
+            // Next page
+            if (event.getSlot() == 53 && event.getCurrentItem().getType() != Material.GRAY_STAINED_GLASS_PANE) {
+                ViewReportsGUI.userPageCounter.replace(player.getUniqueId(),
+                        ViewReportsGUI.userPageCounter.get(player.getUniqueId()) + 1);
+                return;
+            }
+
+            // Previous page
+            if (event.getSlot() == 45 && event.getCurrentItem().getType() != Material.GRAY_STAINED_GLASS_PANE) {
+                ViewReportsGUI.userPageCounter.replace(player.getUniqueId(),
+                        ViewReportsGUI.userPageCounter.get(player.getUniqueId()) - 1);
+                return;
+            }
+
             ItemMeta meta = event.getCurrentItem().getItemMeta();
             Report report = StaffToolsPlugin.getInstance().getReportManager()
                     .getReport(Integer.parseInt(CC.decolor(meta.getLore().get(0)

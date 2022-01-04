@@ -64,7 +64,7 @@ public class ReportCommand extends PlayerCommand {
         plugin.getConfig().set("reportIndex", reportIndex + 1);
         plugin.saveConfig();
 
-        Report report = new Report(reportIndex, player.getUniqueId(), target.getUniqueId(), reason, "open", "", CC.translate("&8N/A"),System.currentTimeMillis());
+        Report report = new Report(reportIndex, player.getUniqueId(), target.getUniqueId(), reason, "open", "", CC.translate("&7N/A"),System.currentTimeMillis());
         plugin.getReportManager().saveReportToStorage(report);
 
         WebhookEmbed embed = new WebhookEmbedBuilder()

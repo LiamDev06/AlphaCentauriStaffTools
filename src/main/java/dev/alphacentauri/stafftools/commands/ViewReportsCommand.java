@@ -28,6 +28,8 @@ public class ViewReportsCommand extends PlayerCommand {
 
             ViewReportsGUI.userToggleOption.remove(player.getUniqueId());
             ViewReportsGUI.userToggleOption.put(player.getUniqueId(), "open");
+            ViewReportsGUI.userPageCounter.remove(player.getUniqueId());
+            ViewReportsGUI.userPageCounter.put(player.getUniqueId(), 1D);
             player.openInventory(ViewReportsGUI.getNetworkReports(player.getUniqueId()));
             return;
         }

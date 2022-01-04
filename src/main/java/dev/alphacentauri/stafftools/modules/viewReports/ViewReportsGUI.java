@@ -18,11 +18,13 @@ import org.bukkit.util.ChatPaginator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class ViewReportsGUI {
 
     public static HashMap<UUID, String> userToggleOption;
+    public static HashMap<UUID, Double> userPageCounter;
 
     public static Inventory getNetworkReports(UUID menuOpener) {
         Inventory inv = Bukkit.createInventory(null, 54, "Reports");
@@ -41,7 +43,29 @@ public class ViewReportsGUI {
                 return inv;
             }
 
-            for (Report report : manager.getOpenNetworkReports()) {
+            List<Report> reports;
+            if (manager.getOpenNetworkReports().size() <= userPageCounter.get(menuOpener) * 28) {
+                reports = manager.getOpenNetworkReports().subList(userPageCounter.get(menuOpener).intValue() * 28 - 28, manager.getOpenNetworkReports().size());
+            } else {
+                reports = manager.getOpenNetworkReports().subList(userPageCounter.get(menuOpener).intValue() * 28 - 28, userPageCounter.get(menuOpener).intValue() * 28);
+            }
+
+            double maxPage = manager.getOpenNetworkReports().size() / 28D;
+            if (maxPage % 1 != 0) {
+                maxPage+=1;
+            }
+
+            if (manager.getOpenNetworkReports().size() > 28 && userPageCounter.get(menuOpener) != maxPage) {
+                // Add next button
+                inv.setItem(53, getNextPageItem());
+            }
+
+            if (userPageCounter.get(menuOpener) > 1) {
+                // Add previous button
+                inv.setItem(45, getPreviousPageItem());
+            }
+
+            for (Report report : reports) {
                 String staffHandling = report.getStaffHandling();
                 if (!staffHandling.contains("N/A")) {
                     staffHandling = Bukkit.getOfflinePlayer(UUID.fromString(staffHandling)).getName();
@@ -61,7 +85,7 @@ public class ViewReportsGUI {
 
                 lore.add("");
                 lore.add(CC.translate("&bStatus: &fOpen"));
-                lore.add(CC.translate("&bLinked Punishment: &8N/A"));
+                lore.add(CC.translate("&bLinked Punishment: &7N/A"));
                 lore.add(CC.translate("&bStaff Handling: &f" + staffHandling));
                 lore.add(CC.translate("&bDate Issued: &f" + Utils.friendlyDateFromTimestamp(report.getTimeStamp())));
                 lore.add("");
@@ -138,6 +162,20 @@ public class ViewReportsGUI {
         meta.setLore(lore);
         item.setItemMeta(meta);
         return item;
+    }
+
+    private static ItemStack getNextPageItem() {
+        return new ItemBuilder(Material.ARROW)
+                .setDisplayName("&2Next Page")
+                .setLore(CC.translate("&7Go to the next page"))
+                .build();
+    }
+
+    private static ItemStack getPreviousPageItem() {
+        return new ItemBuilder(Material.ARROW)
+                .setDisplayName("&2Previous Page")
+                .setLore(CC.translate("&7Go to the previous page"))
+                .build();
     }
 
 }

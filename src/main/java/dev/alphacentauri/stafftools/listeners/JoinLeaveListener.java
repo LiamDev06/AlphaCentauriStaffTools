@@ -62,6 +62,7 @@ public class JoinLeaveListener implements Listener {
 
         ViewReportsGUI.userToggleOption.remove(player.getUniqueId());
         ManageReportMenu.currentReportManage.remove(player.getUniqueId());
+        ViewReportsGUI.userPageCounter.remove(player.getUniqueId());
         Utils.staff.remove(player);
         Utils.staffIncludeTrial.remove(player);
     }

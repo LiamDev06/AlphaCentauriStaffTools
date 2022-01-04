@@ -14,6 +14,7 @@ public class ModuleUtils {
     public static void initGuiUtils() {
         ViewReportsGUI.userToggleOption = new HashMap<>();
         ManageReportMenu.currentReportManage = new HashMap<>();
+        ViewReportsGUI.userPageCounter = new HashMap<>();
     }
 
     public static void fillGlassAround(Inventory inventory) {
