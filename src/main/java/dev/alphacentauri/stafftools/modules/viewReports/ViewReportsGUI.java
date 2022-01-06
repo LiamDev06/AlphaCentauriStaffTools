@@ -55,7 +55,8 @@ public class ViewReportsGUI {
                 maxPage+=1;
             }
 
-            if (manager.getOpenNetworkReports().size() > 28 && userPageCounter.get(menuOpener) != maxPage) {
+            if (manager.getOpenNetworkReports().size() > 28 && userPageCounter.get(menuOpener) != (int) maxPage
+            && manager.getOpenNetworkReports().size() != 28 * userPageCounter.get(menuOpener)) {
                 // Add next button
                 inv.setItem(53, getNextPageItem());
             }

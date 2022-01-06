@@ -54,7 +54,7 @@ public class StaffUserManager {
         try {
             config.save(file);
         } catch (IOException ignored) {
-            //TODO Announce something went wrong
+            Bukkit.getLogger().warning("Something went wrong while trying to create a new staff file!");
         }
     }
 
@@ -83,7 +83,7 @@ public class StaffUserManager {
         try {
             config.save(file);
         } catch (IOException ignored) {
-            //TODO Announce something went wrong
+            Bukkit.getLogger().warning("Something went wrong while trying to offload a player from the cache");
         }
     }
 

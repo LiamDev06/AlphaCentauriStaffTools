@@ -37,6 +37,8 @@ All moderation commands will get an ID added to them that staff can use to add e
 Discord logs channel that I can use to add webhooks with punishment logs
 Staff join and leave messages
 
+Staff link to download logs via discord, can also enable 2FA via this
+
 /linkreport <reportIndex> <punishmentId> - links a punishment to a report
 /sc <message>
 /staffchat

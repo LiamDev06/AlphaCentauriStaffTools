@@ -27,6 +27,10 @@ public class ItemBuilder {
         this.itemStack = new ItemStack(material);
     }
 
+    public ItemBuilder(ItemStack itemStack) {
+        this.itemStack = itemStack;
+    }
+
     public ItemBuilder(ItemStack itemStack, int n2) {
         if (n2 == 0) {
             this.itemStack = itemStack;

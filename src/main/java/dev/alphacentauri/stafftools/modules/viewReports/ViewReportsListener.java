@@ -30,21 +30,25 @@ public class ViewReportsListener implements org.bukkit.event.Listener {
 
                 if (option.equalsIgnoreCase("open")) {
                     ViewReportsGUI.userToggleOption.replace(player.getUniqueId(), "closed");
+                    ViewReportsGUI.userPageCounter.replace(player.getUniqueId(), 1D);
                     player.openInventory(ViewReportsGUI.getNetworkReports(player.getUniqueId()));
                 }
 
                 if (option.equalsIgnoreCase("closed")) {
                     ViewReportsGUI.userToggleOption.replace(player.getUniqueId(), "closedWithPunishment");
+                    ViewReportsGUI.userPageCounter.replace(player.getUniqueId(), 1D);
                     player.openInventory(ViewReportsGUI.getNetworkReports(player.getUniqueId()));
                 }
 
                 if (option.equalsIgnoreCase("closedWithPunishment")) {
                     ViewReportsGUI.userToggleOption.replace(player.getUniqueId(), "closedWithoutPunishment");
+                    ViewReportsGUI.userPageCounter.replace(player.getUniqueId(), 1D);
                     player.openInventory(ViewReportsGUI.getNetworkReports(player.getUniqueId()));
                 }
 
                 if (option.equalsIgnoreCase("closedWithoutPunishment")) {
                     ViewReportsGUI.userToggleOption.replace(player.getUniqueId(), "open");
+                    ViewReportsGUI.userPageCounter.replace(player.getUniqueId(), 1D);
                     player.openInventory(ViewReportsGUI.getNetworkReports(player.getUniqueId()));
                 }
                 return;
@@ -54,6 +58,7 @@ public class ViewReportsListener implements org.bukkit.event.Listener {
             if (event.getSlot() == 53 && event.getCurrentItem().getType() != Material.GRAY_STAINED_GLASS_PANE) {
                 ViewReportsGUI.userPageCounter.replace(player.getUniqueId(),
                         ViewReportsGUI.userPageCounter.get(player.getUniqueId()) + 1);
+                player.openInventory(ViewReportsGUI.getNetworkReports(player.getUniqueId()));
                 return;
             }
 
@@ -61,6 +66,7 @@ public class ViewReportsListener implements org.bukkit.event.Listener {
             if (event.getSlot() == 45 && event.getCurrentItem().getType() != Material.GRAY_STAINED_GLASS_PANE) {
                 ViewReportsGUI.userPageCounter.replace(player.getUniqueId(),
                         ViewReportsGUI.userPageCounter.get(player.getUniqueId()) - 1);
+                player.openInventory(ViewReportsGUI.getNetworkReports(player.getUniqueId()));
                 return;
             }
 
