@@ -1,4 +1,4 @@
-package dev.alphacentauri.stafftools.modules.viewReports;
+package dev.alphacentauri.stafftools.modules.viewreports;
 
 import dev.alphacentauri.stafftools.StaffToolsPlugin;
 import dev.alphacentauri.stafftools.data.ReportManager;

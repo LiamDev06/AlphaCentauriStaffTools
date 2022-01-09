@@ -1,18 +1,17 @@
 package dev.alphacentauri.stafftools;
 
-import dev.alphacentauri.stafftools.commands.ReportCommand;
-import dev.alphacentauri.stafftools.commands.StaffChatCommand;
-import dev.alphacentauri.stafftools.commands.StaffNotifyCommand;
-import dev.alphacentauri.stafftools.commands.ViewReportsCommand;
+import dev.alphacentauri.stafftools.commands.*;
 import dev.alphacentauri.stafftools.data.ReportManager;
 import dev.alphacentauri.stafftools.data.StaffUserManager;
+import dev.alphacentauri.stafftools.discord.DiscordBot;
 import dev.alphacentauri.stafftools.discord.DiscordWebhook;
 import dev.alphacentauri.stafftools.listeners.ChatListener;
 import dev.alphacentauri.stafftools.listeners.JoinLeaveListener;
 import dev.alphacentauri.stafftools.listeners.LuckPermsGroupChangeListener;
 import dev.alphacentauri.stafftools.modules.ModuleUtils;
-import dev.alphacentauri.stafftools.modules.viewReports.ManageReportMenu;
-import dev.alphacentauri.stafftools.modules.viewReports.ViewReportsListener;
+import dev.alphacentauri.stafftools.modules.spymode.SpyModeSystem;
+import dev.alphacentauri.stafftools.modules.viewreports.ManageReportMenu;
+import dev.alphacentauri.stafftools.modules.viewreports.ViewReportsListener;
 import dev.alphacentauri.stafftools.utils.CC;
 import dev.alphacentauri.stafftools.utils.Utils;
 import net.luckperms.api.LuckPerms;
@@ -36,6 +35,8 @@ public final class StaffToolsPlugin extends JavaPlugin {
     private LuckPerms luckPermsApi;
     private ReportManager reportManager;
     private DiscordWebhook discordWebhook;
+    private DiscordBot discordBot;
+    private SpyModeSystem spyModeSystem;
 
     @Override
     public void onEnable() {
@@ -67,6 +68,8 @@ public final class StaffToolsPlugin extends JavaPlugin {
         reportManager = new ReportManager();
         luckPermsApi = LuckPermsProvider.get();
         discordWebhook = new DiscordWebhook();
+        discordBot = new DiscordBot();
+        spyModeSystem = new SpyModeSystem();
 
         PluginManager manager = getServer().getPluginManager();
         new LuckPermsGroupChangeListener(this, luckPermsApi);
@@ -79,6 +82,7 @@ public final class StaffToolsPlugin extends JavaPlugin {
         new StaffChatCommand();
         new ReportCommand();
         new ViewReportsCommand();
+        new SpyModeCommand();
 
         getLogger().info(CC.GREEN + NAME + " has been SUCCESSFULLY loaded in " + (System.currentTimeMillis() - time) + "ms! This plugin is running version " + VERSION);
         getLogger().info(CC.GREEN + "This plugin was made by " + CC.YELLOW + AUTHOR);
@@ -87,6 +91,7 @@ public final class StaffToolsPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         staffUserManager.offLoadPlayersFromCache();
+        spyModeSystem.resetAllPlayers();
 
         INSTANCE = null;
         getLogger().info(CC.GREEN + NAME + " has SUCCESSFULLY been disabled.");
@@ -110,5 +115,13 @@ public final class StaffToolsPlugin extends JavaPlugin {
 
     public DiscordWebhook getDiscordWebhook() {
         return discordWebhook;
+    }
+
+    public DiscordBot getDiscordBot() {
+        return discordBot;
+    }
+
+    public SpyModeSystem getSpyModeSystem() {
+        return spyModeSystem;
     }
 }

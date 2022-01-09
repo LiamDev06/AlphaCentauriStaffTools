@@ -1,7 +1,7 @@
 package dev.alphacentauri.stafftools.modules;
 
-import dev.alphacentauri.stafftools.modules.viewReports.ManageReportMenu;
-import dev.alphacentauri.stafftools.modules.viewReports.ViewReportsGUI;
+import dev.alphacentauri.stafftools.modules.viewreports.ManageReportMenu;
+import dev.alphacentauri.stafftools.modules.viewreports.ViewReportsGUI;
 import dev.alphacentauri.stafftools.utils.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;

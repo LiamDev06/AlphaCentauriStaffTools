@@ -1,4 +1,4 @@
-package dev.alphacentauri.stafftools.modules.viewReports;
+package dev.alphacentauri.stafftools.modules.viewreports;
 
 import dev.alphacentauri.stafftools.StaffToolsPlugin;
 import dev.alphacentauri.stafftools.data.entities.Report;
@@ -15,7 +15,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -51,7 +50,7 @@ public class ManageReportMenu implements Listener {
                         CC.translate("&7Download a log file of the reported rule breaker."),
                         CC.translate("&7The log file will be sent via discord and contains"),
                         CC.translate("&7all the previous events, actions and messages the"),
-                        CC.translate("&7reported player have performed."),
+                        CC.translate("&7reported player has performed."),
                         "",
                         CC.translate("&e➤ Click to download via discord"))
                 .build());

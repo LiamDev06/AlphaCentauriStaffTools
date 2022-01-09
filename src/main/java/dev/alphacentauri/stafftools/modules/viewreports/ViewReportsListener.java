@@ -1,4 +1,4 @@
-package dev.alphacentauri.stafftools.modules.viewReports;
+package dev.alphacentauri.stafftools.modules.viewreports;
 
 import dev.alphacentauri.stafftools.StaffToolsPlugin;
 import dev.alphacentauri.stafftools.data.entities.Report;
@@ -87,10 +87,7 @@ public class ViewReportsListener implements org.bukkit.event.Listener {
                 return;
             }
 
-            player.sendMessage(CC.translate("&7Teleporting..."));
-            player.performCommand("spymode");
-            player.teleport(target.getLocation());
-            player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 10, 1);
+            player.performCommand("spymode " + target.getName());
         }
     }
 }

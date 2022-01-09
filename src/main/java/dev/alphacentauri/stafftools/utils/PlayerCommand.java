@@ -39,6 +39,8 @@ public abstract class PlayerCommand extends Command {
     public boolean execute(@Nonnull CommandSender commandSender, @Nonnull String s, @Nonnull String[] args) {
         if (commandSender instanceof Player) {
             this.onPlayerCommand((Player) commandSender, args);
+        } else {
+            commandSender.sendMessage(CC.translate("&cThis command can only be performed by a player!"));
         }
         return false;
     }

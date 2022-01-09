@@ -1,6 +1,6 @@
 package dev.alphacentauri.stafftools.commands;
 
-import dev.alphacentauri.stafftools.modules.viewReports.ViewReportsGUI;
+import dev.alphacentauri.stafftools.modules.viewreports.ViewReportsGUI;
 import dev.alphacentauri.stafftools.utils.CC;
 import dev.alphacentauri.stafftools.utils.PermissionUtil;
 import dev.alphacentauri.stafftools.utils.PlayerCommand;
