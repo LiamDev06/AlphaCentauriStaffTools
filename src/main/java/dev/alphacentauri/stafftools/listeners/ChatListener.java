@@ -20,12 +20,12 @@ public class ChatListener implements Listener {
         StaffUser staffUser = manager.getStaffUser(player.getUniqueId());
         if (staffUser == null) return;
 
-        if (staffUser.isStaffChat() && PermissionUtil.isStaffIncludeTrial(player.getUniqueId())) {
+        if (staffUser.isStaffChat() && (player.hasPermission("stafftools.tools.chat") || player.isOp())) {
             event.setCancelled(true);
 
             for (Player target : Utils.getOnlineStaffIncludeTrial()) {
                 target.sendMessage(CC.translate(
-                        "&b[STAFF] " + PermissionUtil.getUserPrefix(player.getUniqueId()) + " " + player.getName() + "&f: " +
+                        "&b[STAFF] " + Utils.getUserPrefix(player.getUniqueId()) + " " + player.getName() + "&f: " +
                                 event.getMessage().trim()
                 ));
             }

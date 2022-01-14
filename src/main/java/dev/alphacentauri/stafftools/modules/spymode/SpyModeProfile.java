@@ -1,18 +1,24 @@
 package dev.alphacentauri.stafftools.modules.spymode;
 
 import dev.alphacentauri.stafftools.StaffToolsPlugin;
+import dev.alphacentauri.stafftools.utils.CC;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+
+import java.util.HashMap;
 
 public class SpyModeProfile {
 
     private Player owner;
 
     private Location location;
-    private Inventory inventory;
+    private HashMap<Integer, ItemStack> inventory;
     private ItemStack[] armorSet;
     private GameMode gameMode;
     private int foodLevel;
@@ -25,12 +31,22 @@ public class SpyModeProfile {
     private boolean allowFlight;
     private boolean isFlying;
     private ItemStack itemInMainHand;
+    private ItemStack itemInOffHand;
+    private Player target;
 
     public SpyModeProfile(Player owner) {
         this.owner = owner;
+        this.inventory = new HashMap<>();
+
+        for (int i = 0; i < 36; i++) {
+            if (owner.getInventory().getItem(i) == null) {
+                this.inventory.put(i, new ItemStack(Material.AIR));
+            } else {
+                this.inventory.put(i, owner.getInventory().getItem(i));
+            }
+        }
 
         this.location = owner.getLocation();
-        this.inventory = owner.getInventory();
         this.armorSet = owner.getInventory().getArmorContents();
         this.gameMode = owner.getGameMode();
         this.foodLevel = owner.getFoodLevel();
@@ -42,7 +58,9 @@ public class SpyModeProfile {
         this.flySpeed = owner.getFlySpeed();
         this.allowFlight = owner.getAllowFlight();
         this.isFlying = owner.isFlying();
-        this.itemInMainHand = owner.getItemInHand();
+        this.itemInMainHand = owner.getInventory().getItemInMainHand();
+        this.itemInOffHand = owner.getInventory().getItemInOffHand();
+        this.target = null;
     }
 
     public Player getOwner() {
@@ -61,12 +79,20 @@ public class SpyModeProfile {
         this.location = location;
     }
 
-    public Inventory getInventory() {
+    public HashMap<Integer, ItemStack> getInventory() {
         return inventory;
     }
 
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
+    public void setInventory(PlayerInventory inventory) {
+        this.inventory.clear();
+
+        for (int i = 0; i < 36; i++) {
+            if (inventory.getItem(i) == null) {
+                this.inventory.put(i, new ItemStack(Material.AIR));
+            } else {
+                this.inventory.put(i, inventory.getItem(i));
+            }
+        }
     }
 
     public ItemStack[] getArmorSet() {
@@ -149,11 +175,11 @@ public class SpyModeProfile {
         this.allowFlight = allowFlight;
     }
 
-    public boolean getIsFlying() {
+    public boolean isFlying() {
         return isFlying;
     }
 
-    public void setIsFlying(boolean isFlying) {
+    public void setFlying(boolean isFlying) {
         this.isFlying = isFlying;
     }
 
@@ -163,6 +189,22 @@ public class SpyModeProfile {
 
     public void setItemInMainHand(ItemStack itemInMainHand) {
         this.itemInMainHand = itemInMainHand;
+    }
+
+    public ItemStack getItemInOffHand() {
+        return itemInOffHand;
+    }
+
+    public void setItemInOffHand(ItemStack itemInOffHand) {
+        this.itemInOffHand = itemInOffHand;
+    }
+
+    public Player getTarget() {
+        return target;
+    }
+
+    public void setTarget(Player target) {
+        this.target = target;
     }
 
     public void saveToProfile() {

@@ -1,8 +1,18 @@
 package dev.alphacentauri.stafftools.modules.spymode;
 
 
+import dev.alphacentauri.stafftools.StaffToolsPlugin;
+import dev.alphacentauri.stafftools.utils.CC;
+import net.luckperms.api.model.user.User;
+import net.luckperms.api.node.Node;
+import net.luckperms.api.node.types.PermissionNode;
+import net.luckperms.api.node.types.SuffixNode;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.HashMap;
 
@@ -27,9 +37,9 @@ public class SpyModeSystem {
         if (profile == null) return;
 
         player.getInventory().clear();
-        //TODO Inventory thingy DOES NOT work at all so ye redo that stupid :=)
-        profile.getInventory().setContents(profile.getInventory().getContents());
-        profile.setArmorSet(profile.getArmorSet());
+        player.getInventory().setContents(profile.getInventory().values().toArray(new ItemStack[0]));
+        player.getInventory().setArmorContents(profile.getArmorSet());
+        player.updateInventory();
 
         player.setGameMode(profile.getGameMode());
         player.setFoodLevel(profile.getFoodLevel());
@@ -42,11 +52,20 @@ public class SpyModeSystem {
 
         player.setAllowFlight(profile.getAllowFlight());
         if (profile.getAllowFlight()) {
-            player.setFlying(profile.getIsFlying());
+            player.setFlying(profile.isFlying());
         }
 
-        player.setItemInHand(profile.getItemInMainHand());
+        for (PotionEffect effect : player.getActivePotionEffects()) {
+            player.removePotionEffect(effect.getType());
+        }
+
+        player.getInventory().setItemInMainHand(profile.getItemInMainHand());
+        player.getInventory().setItemInOffHand(profile.getItemInOffHand());
         player.teleport(profile.getLocation());
+
+        User user = StaffToolsPlugin.getInstance().getLuckPermsApi().getUserManager().getUser(player.getUniqueId());
+        if (user == null) return;
+        user.data().remove(Node.builder("suffix.500. &5[S]").build());
 
         spyModeProfiles.remove(player);
     }

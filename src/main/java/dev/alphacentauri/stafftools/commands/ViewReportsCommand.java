@@ -2,8 +2,8 @@ package dev.alphacentauri.stafftools.commands;
 
 import dev.alphacentauri.stafftools.modules.viewreports.ViewReportsGUI;
 import dev.alphacentauri.stafftools.utils.CC;
-import dev.alphacentauri.stafftools.utils.PermissionUtil;
 import dev.alphacentauri.stafftools.utils.PlayerCommand;
+import dev.alphacentauri.stafftools.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -17,8 +17,8 @@ public class ViewReportsCommand extends PlayerCommand {
 
     @Override
     public void onPlayerCommand(Player player, String[] args) {
-        if (!PermissionUtil.isStaff(player.getUniqueId())) {
-            player.sendMessage(CC.translate("&cYou are not allowed to do this!"));
+        if (!player.hasPermission("stafftools.tools.viewreports") && !player.isOp()) {
+            Utils.noPerm(player);
             return;
         }
 

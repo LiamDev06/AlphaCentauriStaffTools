@@ -9,6 +9,8 @@ import dev.alphacentauri.stafftools.listeners.ChatListener;
 import dev.alphacentauri.stafftools.listeners.JoinLeaveListener;
 import dev.alphacentauri.stafftools.listeners.LuckPermsGroupChangeListener;
 import dev.alphacentauri.stafftools.modules.ModuleUtils;
+import dev.alphacentauri.stafftools.modules.globalstats.GlobalStatsManager;
+import dev.alphacentauri.stafftools.modules.spymode.SpyModeListeners;
 import dev.alphacentauri.stafftools.modules.spymode.SpyModeSystem;
 import dev.alphacentauri.stafftools.modules.viewreports.ManageReportMenu;
 import dev.alphacentauri.stafftools.modules.viewreports.ViewReportsListener;
@@ -16,8 +18,13 @@ import dev.alphacentauri.stafftools.utils.CC;
 import dev.alphacentauri.stafftools.utils.Utils;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,6 +44,7 @@ public final class StaffToolsPlugin extends JavaPlugin {
     private DiscordWebhook discordWebhook;
     private DiscordBot discordBot;
     private SpyModeSystem spyModeSystem;
+    private GlobalStatsManager globalStatsManager;
 
     @Override
     public void onEnable() {
@@ -70,6 +78,7 @@ public final class StaffToolsPlugin extends JavaPlugin {
         discordWebhook = new DiscordWebhook();
         discordBot = new DiscordBot();
         spyModeSystem = new SpyModeSystem();
+        globalStatsManager = new GlobalStatsManager(this);
 
         PluginManager manager = getServer().getPluginManager();
         new LuckPermsGroupChangeListener(this, luckPermsApi);
@@ -77,12 +86,28 @@ public final class StaffToolsPlugin extends JavaPlugin {
         manager.registerEvents(new ChatListener(), this);
         manager.registerEvents(new ViewReportsListener(), this);
         manager.registerEvents(new ManageReportMenu(), this);
+        manager.registerEvents(new SpyModeListeners(), this);
 
         new StaffNotifyCommand();
         new StaffChatCommand();
         new ReportCommand();
         new ViewReportsCommand();
         new SpyModeCommand();
+
+        this.getServer().getScheduler().runTaskTimer(this, () -> {
+            if (Bukkit.getOnlinePlayers().size() > 0) {
+                for (Player online : Bukkit.getOnlinePlayers()) {
+
+                    if (spyModeSystem.isInSpyMode(online)) {
+                        if (online.getGameMode() == GameMode.SPECTATOR) {
+                            online.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(CC.translate("&fYou are currently &cIN SPY MODE &7(SPECTATOR)")));
+                        } else {
+                            online.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(CC.translate("&fYou are currently &cIN SPY MODE")));
+                        }
+                    }
+                }
+            }
+        }, 0, 30);
 
         getLogger().info(CC.GREEN + NAME + " has been SUCCESSFULLY loaded in " + (System.currentTimeMillis() - time) + "ms! This plugin is running version " + VERSION);
         getLogger().info(CC.GREEN + "This plugin was made by " + CC.YELLOW + AUTHOR);
@@ -123,5 +148,9 @@ public final class StaffToolsPlugin extends JavaPlugin {
 
     public SpyModeSystem getSpyModeSystem() {
         return spyModeSystem;
+    }
+
+    public GlobalStatsManager getGlobalStatsManager() {
+        return globalStatsManager;
     }
 }

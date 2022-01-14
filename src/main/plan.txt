@@ -37,6 +37,10 @@ All moderation commands will get an ID added to them that staff can use to add e
 Discord logs channel that I can use to add webhooks with punishment logs
 Staff join and leave messages
 
+Inventory logs!
+
+Add a global stat for punishments executed so we can track total punishments and stuff in graphs
+
 Staff link to download logs via discord, can also enable 2FA via this
 
 /linkreport <reportIndex> <punishmentId> - links a punishment to a report

@@ -2,7 +2,10 @@ package dev.alphacentauri.stafftools.utils;
 
 import dev.alphacentauri.stafftools.StaffToolsPlugin;
 import dev.alphacentauri.stafftools.data.entities.StaffUser;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -71,7 +74,18 @@ public class Utils {
             name = player.getName();
         }
 
-        return PermissionUtil.getUserPrefix(uuid) + " " + name;
+        return CC.translate(getUserPrefix(uuid) + " " + name);
+    }
+
+    public static String getUserPrefix(UUID who) {
+        LuckPerms luckPerms = StaffToolsPlugin.getInstance().getLuckPermsApi();
+        User user = luckPerms.getUserManager().getUser(who);
+
+        if (user == null) {
+            return "";
+        }
+
+        return CC.translate(user.getCachedData().getMetaData().getPrefix());
     }
 
     public static String friendlyDateFromTimestamp(long input) {
@@ -79,6 +93,12 @@ public class Utils {
         Date date = new Date(timestamp.getTime());
         return date.toString();
     }
+
+    public static void noPerm(Player player) {
+        player.sendMessage(CC.translate("&cYou do not have access to perform this!"));
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 10, 1);
+    }
+
 }
 
 

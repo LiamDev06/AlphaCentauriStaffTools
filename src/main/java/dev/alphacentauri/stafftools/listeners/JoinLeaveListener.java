@@ -39,7 +39,7 @@ public class JoinLeaveListener implements Listener {
 
             for (Player target : Utils.getOnlineStaffIncludeTrial_WithStaffNotify()) {
                  target.sendMessage(CC.translate(
-                        "&b[STAFF] " + PermissionUtil.getUserPrefix(player.getUniqueId()) + " " + player.getName() + " &ejoined."
+                        "&b[STAFF] " + Utils.getUserPrefix(player.getUniqueId()) + " " + player.getName() + " &ejoined."
                  ));
             }
         }
@@ -55,7 +55,7 @@ public class JoinLeaveListener implements Listener {
 
             for (Player target : Utils.getOnlineStaffIncludeTrial_WithStaffNotify()) {
                  target.sendMessage(CC.translate(
-                        "&b[STAFF] " + PermissionUtil.getUserPrefix(player.getUniqueId()) + " " + player.getName() + " &edisconnected."
+                        "&b[STAFF] " + Utils.getUserPrefix(player.getUniqueId()) + " " + player.getName() + " &edisconnected."
                  ));
             }
         }

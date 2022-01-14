@@ -6,7 +6,6 @@ import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import dev.alphacentauri.stafftools.StaffToolsPlugin;
 import dev.alphacentauri.stafftools.data.entities.Report;
 import dev.alphacentauri.stafftools.utils.CC;
-import dev.alphacentauri.stafftools.utils.PermissionUtil;
 import dev.alphacentauri.stafftools.utils.PlayerCommand;
 import dev.alphacentauri.stafftools.utils.Utils;
 import org.bukkit.Bukkit;
@@ -37,11 +36,6 @@ public class ReportCommand extends PlayerCommand {
 
         if (target.getUniqueId() == player.getUniqueId()) {
             player.sendMessage(CC.translate("&cYou cannot report yourself!"));
-            return;
-        }
-
-        if (PermissionUtil.isStaff(target.getUniqueId())) {
-            player.sendMessage(CC.translate("&c&lBLOCKED! &cThis player cannot be reported!"));
             return;
         }
 

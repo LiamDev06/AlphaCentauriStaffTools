@@ -11,7 +11,7 @@ import javax.security.auth.login.LoginException;
 
 public class DiscordBot {
 
-    private final String BOT_TOKEN = "";
+    private final String BOT_TOKEN = "OTI3NjQ4NTA3MTE5MTYxMzY0.YdNR_g.YaOqc7DHmXJXE2rQvVPg1fjqw08";
     private JDA jda;
 
     public DiscordBot() {

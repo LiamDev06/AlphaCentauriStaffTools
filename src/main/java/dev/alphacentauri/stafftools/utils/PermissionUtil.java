@@ -12,74 +12,20 @@ public class PermissionUtil {
 
     private static final LuckPerms luckPerms = StaffToolsPlugin.getInstance().getLuckPermsApi();
 
-    public static boolean isStaffIncludeTrial(UUID who) {
-        User user = luckPerms.getUserManager().getUser(who);
-
-        if (user == null) {
-            return false;
-        }
+    public static boolean isStaffIncludeTrial(UUID uuid) {
+        User user = luckPerms.getUserManager().getUser(uuid);
+        if (user == null) return false;
 
         Collection<Group> inheritedGroups = user.getInheritedGroups(user.getQueryOptions());
         return inheritedGroups.stream().anyMatch(g -> g.getName().equals("trial"));
     }
 
-    public static boolean isStaff(UUID who) {
-        User user = luckPerms.getUserManager().getUser(who);
-
-        if (user == null) {
-            return false;
-        }
+    public static boolean isStaff(UUID uuid) {
+        User user = luckPerms.getUserManager().getUser(uuid);
+        if (user == null) return false;
 
         Collection<Group> inheritedGroups = user.getInheritedGroups(user.getQueryOptions());
-        return inheritedGroups.stream().anyMatch(g -> g.getName().equals("helper"));
-    }
-
-    public static boolean isModerator(UUID who) {
-        User user = luckPerms.getUserManager().getUser(who);
-
-        if (user == null) {
-            return false;
-        }
-
-        Collection<Group> inheritedGroups = user.getInheritedGroups(user.getQueryOptions());
-        return inheritedGroups.stream().anyMatch(g -> g.getName().equals("moderator"));
-    }
-
-    public static boolean isManager(UUID who) {
-        User user = luckPerms.getUserManager().getUser(who);
-
-        if (user == null) {
-            return false;
-        }
-
-        Collection<Group> inheritedGroups = user.getInheritedGroups(user.getQueryOptions());
-        return inheritedGroups.stream().anyMatch(g -> g.getName().equals("manager"));
-    }
-
-    public static String getUserPrefix(UUID who) {
-        User user = luckPerms.getUserManager().getUser(who);
-
-        if (user == null) {
-            return "";
-        }
-
-        return user.getCachedData().getMetaData().getPrefix();
+        return inheritedGroups.stream().anyMatch(g -> g.getName().equals("staff"));
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

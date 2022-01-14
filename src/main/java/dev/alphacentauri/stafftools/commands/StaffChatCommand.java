@@ -4,7 +4,6 @@ import dev.alphacentauri.stafftools.StaffToolsPlugin;
 import dev.alphacentauri.stafftools.data.entities.StaffUser;
 import dev.alphacentauri.stafftools.data.StaffUserManager;
 import dev.alphacentauri.stafftools.utils.CC;
-import dev.alphacentauri.stafftools.utils.PermissionUtil;
 import dev.alphacentauri.stafftools.utils.PlayerCommand;
 import dev.alphacentauri.stafftools.utils.Utils;
 import org.bukkit.entity.Player;
@@ -17,8 +16,8 @@ public class StaffChatCommand extends PlayerCommand {
 
     @Override
     public void onPlayerCommand(Player player, String[] args) {
-        if (!PermissionUtil.isStaffIncludeTrial(player.getUniqueId())) {
-            player.sendMessage(CC.translate("&cYou are not allowed to do this!"));
+        if (!player.hasPermission("stafftools.tools.chat") && !player.isOp()) {
+            Utils.noPerm(player);
             return;
         }
 
@@ -47,7 +46,7 @@ public class StaffChatCommand extends PlayerCommand {
         String message = builder.toString().trim();
         for (Player target : Utils.getOnlineStaffIncludeTrial()) {
             target.sendMessage(CC.translate(
-                    "&b[STAFF] " + PermissionUtil.getUserPrefix(player.getUniqueId()) + " " + player.getName() + "&f: " + message
+                    "&b[STAFF] " + Utils.getUserPrefix(player.getUniqueId()) + " " + player.getName() + "&f: " + message
             ));
         }
     }
